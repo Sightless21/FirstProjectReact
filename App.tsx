@@ -8,6 +8,7 @@ import {
 } from 'react-native';
 import AppFooter from './components/AppFooter';
 import AppHeader from './components/AppHeader';
+import Content from './components/Content';
 
 export default function App(): React.JSX.Element /* <<<=== Must have to make ure ths app can use Typescript */ {
   /* how to create function */
@@ -22,21 +23,10 @@ export default function App(): React.JSX.Element /* <<<=== Must have to make ure
 
   return ( /* render JXS and typescript */
     <View style={styles.container}>
-      <AppHeader title="This is Header" year={2006}/>
-      <AppHeader title="This is Header2"/>
-      <Text>Hello React Native</Text>
-      {
-        users.map((user, index) => {
-          return (
-            <Text key={user.id}>
-              No. {index} ID: {user.id} Name: {user.name}
-            </Text> /* user array */
-          )
-        })}
-
-      <Button title='CLick me:)' onPress={onClickMe} color="#841584"/* onPress={() => {Alert.alert('Hi', 'React Native is Fun')}} */ />
+      <AppHeader Username="Phanpong Poungbaidee" Massage="Massage form App.tsx"/>
+      <Content Username="Phanupong Poungbaidee" Massage='Massage form App.tsx'/>
       <StatusBar style="auto" />
-      <AppFooter />
+      <AppFooter University="Thai-Nichi Institute of Technology" />
     </View>
   );
 }

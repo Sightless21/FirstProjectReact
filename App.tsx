@@ -28,10 +28,15 @@ export default function App(): React.JSX.Element /* <<<=== Must have to make ure
     console.log(`Fullname has changed to : ${fullname}`);
   },[fullname]);
 
+  const handleButtonClick= () => {
+    Alert.alert("Hello",`Input your fullname : ${fullname}`);
+  };
+
   return ( /* render JXS and typescript */
     <View style={styles.container}>
       <AppHeader Massage={massage} fullname = {fullname}/>
-      <Content Massage = {massage} fullname = {fullname}/>
+      {/*<Content Massage = {massage} fullname = {fullname}/>*/}
+      <Content Massage = {massage} onButtonClick = {handleButtonClick} fullname={fullname}/>
       <StatusBar style="auto" />
       <AppFooter University={footer} />
       <TextInput 

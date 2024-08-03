@@ -13,8 +13,6 @@ import AppHeader from './components/AppHeader';
 import Content from './components/Content';
 import { stylesPractice } from './components/styles/styles';
 import React,{useState,useEffect} from 'react';
-import ProfileScreen from './components/ProfileScreen';
-import Login from './components/Login';
 
 export default function App(): React.JSX.Element /* <<<=== Must have to make ure ths app can use Typescript */ {
   
@@ -36,13 +34,16 @@ export default function App(): React.JSX.Element /* <<<=== Must have to make ure
 
   return ( /* render JXS and typescript */
     <View style={styles.container}>
-      <ProfileScreen/>
-      {/* <AppHeader Massage={massage} fullname = {fullname}/> */}
+      <AppHeader Massage={massage} fullname = {fullname}/>
       {/*<Content Massage = {massage} fullname = {fullname}/>*/}
-      {/* <Content Massage = {massage} onButtonClick = {handleButtonClick} fullname={fullname}/> */}
+      <Content Massage = {massage} onButtonClick = {handleButtonClick} fullname={fullname}/>
       <StatusBar style="auto" />
       <AppFooter University={footer} />
-      <Login/>
+      <TextInput 
+        style = {stylesPractice.input}
+        placeholder='Enter your fullname'
+        value={fullname}
+        onChangeText={Setfullname} />
     </View>
   );
 }

@@ -1,35 +1,32 @@
 import { View, Text, Alert, Button, StyleSheet } from 'react-native'
+import {stylesPractice} from './styles/styles';
 import React from 'react'
 
 type ContentPros = {
-    Username: string;
+    fullname: string;
     Massage: string;
 }
 
-const Content = ({ Username,Massage}: ContentPros): React.JSX.Element => {
+const Content = ({ fullname,Massage}: ContentPros): React.JSX.Element => {
+
+    const [displayFullname,SetdisplayFullname] = React.useState('');
+
+    const handleButtononClick = () =>{
+        SetdisplayFullname(fullname);
+        Alert.alert("Hello",`Input your fullname : ${fullname}`);
+    }
 
     const onClickMe = () => {
-        Alert.alert("Hello", Username)
+        Alert.alert("Hello", fullname)
     }
 
     return (
-        <View style={style.content}>
-            <Text style={style.text}>{Massage}</Text>
-            <Button title='CLICK ME' onPress={onClickMe} />
+        <View style={stylesPractice.content}>
+            <Text style={stylesPractice.text}>{Massage}</Text>
+            <Text style={stylesPractice.text}>{displayFullname}</Text>
+            <Button title='CLICK ME' onPress={handleButtononClick}  />
         </View>
     )
 }
 
-const style = StyleSheet.create({
-    content: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    text: {
-        fontSize: 18,
-        marginBottom: 20,
-    },
-
-})
 export default Content

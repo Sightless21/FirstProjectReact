@@ -1,5 +1,5 @@
 import { StyleSheet, Text, View, Image, Button } from 'react-native'
-import styles from './styles/styles';
+import {stylesPractice,styles} from './styles/styles';
 import { useEffect, useState } from 'react';
 
 
@@ -20,11 +20,11 @@ const ProfileScreen = (): React.JSX.Element => {
     }
     
   return (
-    <View style={styles.container}>
+    <View style={stylesPractice.container}>
         <View style={styles.profileContainer}>
             <Image source={profile} style={styles.profileImage}/>
             <View>
-                <Text style={styles.TextName}>{name}</Text>
+                <Text style={stylesPractice.text}>{name}</Text>
                 <Button title='Change Name' onPress={handleChangeName} />
                 <Text/>
                 <Button title='Change Profile' onPress={handleChangeImage}></Button>

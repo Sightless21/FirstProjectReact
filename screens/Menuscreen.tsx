@@ -1,7 +1,7 @@
 import { View, Text } from "react-native";
 import React from "react";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import { Header, ListItem,Icon } from "@rneui/base";
+import { Header, ListItem, Icon } from "@rneui/base";
 
 const MenuScreen = ({ navigation }: any): React.JSX.Element => {
   return (
@@ -15,9 +15,9 @@ const MenuScreen = ({ navigation }: any): React.JSX.Element => {
         containerStyle={{ width: "100%", height: 200 }}
       />
       <>
-        <ListItem 
+        <ListItem
           bottomDivider //เส้นขีดระหว่างเมนู
-          onPress={()=> {navigation.navigate('HomeStack')}} 
+          onPress={() => { navigation.navigate('HomeStack') }}
         >
           <Icon name="home" type="material-community" color="grey" />
           <ListItem.Content>
@@ -25,7 +25,7 @@ const MenuScreen = ({ navigation }: any): React.JSX.Element => {
           </ListItem.Content>
           <ListItem.Chevron />
         </ListItem>
-        <ListItem onPress={()=> {navigation.navigate('ProductStack')}} >
+        <ListItem onPress={() => { navigation.navigate('ProductStack') }} >
           <Icon
             name="star"
             type="material-community"
@@ -33,8 +33,8 @@ const MenuScreen = ({ navigation }: any): React.JSX.Element => {
           />
           <ListItem.Content>
             <ListItem.Title>สินค้า</ListItem.Title>
-          </ListItem.Content>{/*  */}
-          <ListItem.Chevron />{/*  */}
+          </ListItem.Content>
+          <ListItem.Chevron />
         </ListItem>
       </>
     </View>

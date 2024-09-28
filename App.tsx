@@ -21,16 +21,60 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Provider } from "react-redux";
 import { store } from "./redux-toolkit/store";
 import { useAppSelector, useAppDispatch } from "./redux-toolkit/hooks";
-import { selectAuthState, setIsLogin,setIsLoading, setProfle } from "./auth/auth-sliec";
+import { selectAuthState, setIsLogin, setIsLoading } from "./auth/auth-sliec";
 import { View } from "react-native-reanimated/lib/typescript/Animated";
 import { ActivityIndicator } from 'react-native';
 import { getProfile } from "./services/auth-service";
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import cameraScreen from "./screens/cameraScreen";
+
+
 
 const HomeStack = createNativeStackNavigator();
 const ProductStack = createNativeStackNavigator();
 const LoginStack = createNativeStackNavigator();
+const CameraStack = createNativeStackNavigator();
 
 const Drawer = createDrawerNavigator();
+
+const Tab = createBottomTabNavigator();
+
+function CameraStackScreen() {
+  return (
+    <CameraStack.Navigator //Global​
+      initialRouteName="Camera"
+      screenOptions={{
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+    >
+      <CameraStack.Screen
+        name="Camera"
+        component={cameraScreen}
+        options={{ title: 'Camera' }}
+      />
+    </CameraStack.Navigator>
+  );
+}
+
+function TabContainer() {
+  return (
+    <>
+      <Tab.Navigator screenOptions={{ headerShown: false }}>
+        <Tab.Screen
+          name="Home"
+          component={HomeStackScreen}
+          options={{ tabBarLabel: 'หน้าหลัก' }} />
+      </Tab.Navigator><Tab.Screen
+        name="CameraStack"
+        component={CameraStackScreen}
+        options={{ tabBarLabel: 'กล้อง' }}>
+      </Tab.Screen>
+    </>
+  )
+}
+
 
 function HomeStackScreen() {
   return (
@@ -90,20 +134,20 @@ function LoginStackScreen() {
 
 const App = (): React.JSX.Element => {
 
-  const {isLogin,isLoading} = useAppSelector(selectAuthState)
+  const { isLogin, isLoading } = useAppSelector(selectAuthState)
   const dispatch = useAppDispatch();
   const checkLogin = async () => {
     try {
       dispatch(setIsLoading(true));
       const response = await getProfile();
-      if(response?.data.data.user){
+      if (response?.data.data.user) {
         dispatch(setProfle(response.data.data.user))
-      }else{
+      } else {
         dispatch(setIsLogin(false));
       }
-    } catch (error){
+    } catch (error) {
       console.log(error)
-    }finally{
+    } finally {
       dispatch(setIsLoading(false));
     }
   }
@@ -111,13 +155,13 @@ const App = (): React.JSX.Element => {
   useFocusEffect(
     React.useCallback(() => {
       checkLogin();
-    },[])
+    }, [])
   );
 
-  if(isLoading){
+  if (isLoading) {
     return (
-      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
-        <ActivityIndicator size='large' color='blue'/>
+      <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+        <ActivityIndicator size='large' color='blue' />
       </View>
     )
   }
@@ -130,7 +174,7 @@ const App = (): React.JSX.Element => {
             screenOptions={{ headerShown: false }}
             drawerContent={(props) => <MenuScreen {...props} />}
           >
-            <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
+            <Drawer.Screen name="Home" component={TabContainer} />
             <Drawer.Screen name="ProductStack" component={ProductStackScreen} />
           </Drawer.Navigator>
         ) : (
@@ -154,5 +198,6 @@ const AppWrapper = () => {
     </Provider>
   )
 }
+
 
 export default AppWrapper;

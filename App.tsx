@@ -15,11 +15,16 @@ import ProductScreen from "./screens/ProductScreen";
 import DetailScreen from "./screens/DeteilScreen";
 import LoginScreen from "./screens/LoginScreen";
 
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, useFocusEffect } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { Provider } from "react-redux";
 import { store } from "./redux-toolkit/store";
+import { useAppSelector, useAppDispatch } from "./redux-toolkit/hooks";
+import { selectAuthState, setIsLogin,setIsLoading, setProfle } from "./auth/auth-sliec";
+import { View } from "react-native-reanimated/lib/typescript/Animated";
+import { ActivityIndicator } from 'react-native';
+import { getProfile } from "./services/auth-service";
 
 const HomeStack = createNativeStackNavigator();
 const ProductStack = createNativeStackNavigator();
@@ -85,7 +90,37 @@ function LoginStackScreen() {
 
 const App = (): React.JSX.Element => {
 
-  const [isLogin] = useState(false);
+  const {isLogin,isLoading} = useAppSelector(selectAuthState)
+  const dispatch = useAppDispatch();
+  const checkLogin = async () => {
+    try {
+      dispatch(setIsLoading(true));
+      const response = await getProfile();
+      if(response?.data.data.user){
+        dispatch(setProfle(response.data.data.user))
+      }else{
+        dispatch(setIsLogin(false));
+      }
+    } catch (error){
+      console.log(error)
+    }finally{
+      dispatch(setIsLoading(false));
+    }
+  }
+
+  useFocusEffect(
+    React.useCallback(() => {
+      checkLogin();
+    },[])
+  );
+
+  if(isLoading){
+    return (
+      <View style={{flex:1,justifyContent:'center',alignItems:'center'}}>
+        <ActivityIndicator size='large' color='blue'/>
+      </View>
+    )
+  }
 
   return (
     <>
@@ -108,7 +143,7 @@ const App = (): React.JSX.Element => {
   );
 };
 
-const Apprapper = () => {
+const AppWrapper = () => {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
@@ -120,4 +155,4 @@ const Apprapper = () => {
   )
 }
 
-export default Apprapper;
+export default AppWrapper;

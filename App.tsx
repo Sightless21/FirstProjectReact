@@ -18,6 +18,8 @@ import LoginScreen from "./screens/LoginScreen";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
+import { Provider } from "react-redux";
+import { store } from "./redux-toolkit/store";
 
 const HomeStack = createNativeStackNavigator();
 const ProductStack = createNativeStackNavigator();
@@ -87,25 +89,35 @@ const App = (): React.JSX.Element => {
 
   return (
     <>
-      <SafeAreaProvider>
-        <HeaderButtonsProvider stackType="native">
-          {isLogin ? (
-            <Drawer.Navigator
-              screenOptions={{ headerShown: false }}
-              drawerContent={(props) => <MenuScreen {...props} />}
-            >
-              <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
-              <Drawer.Screen name="ProductStack" component={ProductStackScreen} />
-            </Drawer.Navigator>
-          ) : (
-            <LoginStackScreen />
-          )
-          }
-        </HeaderButtonsProvider>
-      </SafeAreaProvider>
-      <Toast/>
+      <HeaderButtonsProvider stackType="native">
+        {isLogin ? (
+          <Drawer.Navigator
+            screenOptions={{ headerShown: false }}
+            drawerContent={(props) => <MenuScreen {...props} />}
+          >
+            <Drawer.Screen name="HomeStack" component={HomeStackScreen} />
+            <Drawer.Screen name="ProductStack" component={ProductStackScreen} />
+          </Drawer.Navigator>
+        ) : (
+          <LoginStackScreen />
+        )
+        }
+      </HeaderButtonsProvider>
+      <Toast />
     </>
   );
 };
 
-export default App;
+const Apprapper = () => {
+  return (
+    <Provider store={store}>
+      <SafeAreaProvider>
+        <NavigationContainer>
+          <App />
+        </NavigationContainer>
+      </SafeAreaProvider>
+    </Provider>
+  )
+}
+
+export default Apprapper;

@@ -1,10 +1,10 @@
-import axios,{AxiosResponse,AxiosError} from "axios";
+import axios, { AxiosResponse, AxiosError } from "axios";
 
 //create instance
 const http = axios.create({
-    headers:{'Content-Type':'application/json'}
+  headers: { "Content-Type": "application/json" },
 });
 
-export {http};
+export { http };
 
-export type {AxiosResponse,AxiosError};
+export type { AxiosResponse, AxiosError };

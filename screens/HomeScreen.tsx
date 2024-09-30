@@ -1,30 +1,32 @@
-import { View, Button, StyleSheet, Alert } from "react-native";
-import React, { useLayoutEffect } from "react";
-import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import { StyleSheet, View, Button, Alert } from "react-native";
+import React from "react";
+import MaterialIcon from "react-native-vector-icons/MaterialIcons";
 import { useNavigation } from "@react-navigation/native";
-import AppLogo from "./AppLogo";
+import { useLayoutEffect } from "react";
+import AppLogo from "../components/AppLogo";
 import {
   HeaderButton,
   HeaderButtons,
   Item,
 } from "react-navigation-header-buttons";
-import { useAppDispatch, useAppSelector } from "../redux-toolkit/hooks";
-import { selectAuthState, setIsLogin } from "../auth/auth-sliec";
-import { Text } from "@rneui/base";
-import {use}
-
+import { useAppDispatch, useAppSelector } from '../redux-toolkit/hooks';
 import { logout } from "../services/auth-service";
+import { selectAuthState, setIsLogin } from "../auth/auth-slice";
+import { Text } from "@rneui/base";
+import { setProfile } from "../auth/auth-slice";
 
-const MaterialHeaderButton = (props: any) => (
-  // the `props` here come from <Item ... /> 
-  // you may access them and pass something else to `HeaderButton` if you like
-  <HeaderButton IconComponent={MaterialIcon} iconSize={23} {...props} />
-);
 
 const HomeScreen = (): React.JSX.Element => {
-  const navigation = useNavigation<any>();
+
   const dispatch = useAppDispatch();
+  const navigation = useNavigation<any>(); // return the props so you don't have to type the navigation/route shit thing
   const {profile} = useAppSelector(selectAuthState);
+
+  const MaterialHeaderButton = (props: any) => (
+    // the `props` here come from <Item ... />
+    // you may access them and pass something else to `HeaderButton` if you like
+    <HeaderButton IconComponent={MaterialIcon} iconSize={23} {...props} />
+  );
 
   useLayoutEffect(() => {
     navigation.setOptions({
@@ -34,50 +36,56 @@ const HomeScreen = (): React.JSX.Element => {
       headerLeft: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
-            title="menu" iconName="menu"
-            onPress={() => {
-              navigation.openDrawer();
-            }}
+            title="menu"
+            iconName="menu"
+            onPress={() => navigation.openDrawer()
+            }
           />
         </HeaderButtons>
       ),
       headerRight: () => (
         <HeaderButtons HeaderButtonComponent={MaterialHeaderButton}>
           <Item
-            title="logout" iconName="logout"
+            title="hasNoMeaning"
+            iconName="logout"
             onPress={async () => {
               await logout();
-              dispatch(setIsLogin(false));
+              dispatch(setIsLogin(false))
             }}
           />
         </HeaderButtons>
-      )
+      ),
     });
   }, [navigation]);
-  const gotoAbout = () => {
+
+  const goToAbout = () => {
     navigation.navigate("About", {
-      companyName: "Thai-Nichi Institute of Technology",
-      companyId: 100,
+      companyName: "泰国人公司",
+      companyId: 420,
     });
+  };
+  const goToCreatePost = () => {
+    navigation.navigate("CreatePost");
   };
   return (
     <View style={styles.container}>
-      <MaterialIcon name="home" size={40} color="pink" />
-      {profile?(
+      <MaterialIcon name="home" size={40} color="#EB3DA9" />
+      {profile? (
         <>
-          <Text h3>Welcome {profile.name}</Text>
-          <Text>
-            Email: {profile.email} ID : {profile.ig} Role: {profile.role}
-          </Text>
+        <Text h3>Welcome {profile.name}</Text>
+        <Text>
+          Email: {profile.Email} ID: {profile.ID} Role: {profile.Role}
+        </Text>
         </>
-      ): null
-      
-      }
-      <Button title="About us" onPress={gotoAbout} />
+      ): null }
+      <Text style={styles.header}>HomeScreen</Text>
+      <Button color={"#66A33A"} title="About Us" onPress={goToAbout} />
     </View>
   );
 };
+
 export default HomeScreen;
+
 const styles = StyleSheet.create({
   container: {
     padding: 20,

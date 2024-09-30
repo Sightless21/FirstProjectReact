@@ -1,22 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native'
-import {stylesPractice} from './styles/styles';
 import React from 'react'
+import { stylesPractice } from '../styles/styles';
 
-type AppFooterPros = {
-    University: string;
+interface AppFooterProps {
+  footerMessage: string;
+}
+const AppFooter = ({footerMessage}: AppFooterProps): React.JSX.Element => {
+ 
+
+  return (
+    <View style = {stylesPractice.footer}>
+      <Text style = {stylesPractice.footerText}>{footerMessage}</Text>
+    </View >
+  )
 }
 
-const AppFooter = ({ University }: AppFooterPros): React.JSX.Element => {
-    const Hello = { University };
-    const Hello2 = <Text>Hello JXS</Text>;
-    const isLogin = true;
-    return (
-        <View style={stylesPractice.footer}>
-            <Text style={stylesPractice.footerText}>
-                {University}
-            </Text>
-        </View>
-    )
-}
+export default AppFooter
 
-export default AppFooter;
+const styles = StyleSheet.create({
+
+  });

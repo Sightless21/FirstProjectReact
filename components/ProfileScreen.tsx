@@ -1,37 +1,47 @@
-import { StyleSheet, Text, View, Image, Button } from 'react-native'
-import {stylesPractice,styles} from './styles/styles';
-import { useEffect, useState } from 'react';
+import { Text, View, Image, Button } from "react-native";
+import React from "react";
+import { styles } from "../styles/styles";
+import { useState } from "react";
 
+const ProfileScreen = () => {
+  const profileImage = require("../assets/pfp1.jpg");
+  const profileImage2 = require("../assets/pfp2.jpg");
+  const [name, setName] = useState("Paisan Kiatjanon");
+  const [img, setImg] = useState(profileImage);
 
-const ProfileScreen = (): React.JSX.Element => {
-    const profileImage = require("../assets/MyProfile.jpg");
-    const profileImage2 = require("../assets/Profile_Nerd.png")
+  const handleChangeName = () => {
+    name == "Tanakarn Kiatjanon"?setName("Paisan Kiatjanon"):setName("Tanakarn Kiatjanon");
+  };
+  const handleChangeImg = () => {
+    setImg(profileImage2);
+  };
 
-    const [name,setName] = useState("Phanupong Pougbaidee");
-    const [profile,setProfile] = useState(profileImage);
-
-
-    const handleChangeImage = () => {
-        
-        setProfile(profile == profileImage2 ? profileImage :profileImage2 )
-    }
-    const handleChangeName = () => {
-        setName(name == "Phanupong Pougbaidee" ? "Sightless21" : "Phanupong Pougbaidee");
-    }
-    
   return (
-    <View style={stylesPractice.container}>
-        <View style={styles.profileContainer}>
-            <Image source={profile} style={styles.profileImage}/>
-            <View>
-                <Text style={stylesPractice.text}>{name}</Text>
-                <Button title='Change Name' onPress={handleChangeName} />
-                <Text/>
-                <Button title='Change Profile' onPress={handleChangeImage}></Button>
-            </View>
-        </View>
-    </View>
-  )
-}
+    <View style={styles.container}>
+      <View style={styles.profileContainer}>
+        {/* Text & buttons container */}
+        <Image style={styles.profileImage} source={img} />
+        <View>
+          <Text style={styles.profileName}>{name}</Text>
 
-export default ProfileScreen
+          {/* buttons container */}
+          <View style={{ width: 150 }}>
+            <Button
+              title="Change Name"
+              onPress={() => handleChangeName()}
+              color={"#69b4c2"}
+            />
+            <Text></Text>
+            <Button
+              title="Change Image"
+              onPress={() => handleChangeImg()}
+              color={"#69b4c2"}
+            />
+          </View>
+        </View>
+      </View>
+    </View>
+  );
+};
+
+export default ProfileScreen;

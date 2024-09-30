@@ -1,34 +1,31 @@
-import { View, Text, Alert, Button, StyleSheet } from 'react-native'
-import {stylesPractice} from './styles/styles';
-import React from 'react'
+import { StyleSheet, Text, View, Button, Alert } from "react-native";
+import React, { useState } from "react";
+import { stylesPractice } from "../styles/styles";
 
-type ContentPros = {
-    fullname: string;
-    Massage: string;
-    onButtonClick:() => void;
+interface ContentProps {
+  message: string;
+  //fullname: string;
+  onButtonClick: () => void // stating the return type
 }
+const Content = ({ message, onButtonClick }: ContentProps) => {
 
-const Content = ({ fullname,Massage,onButtonClick}: ContentPros): React.JSX.Element => {
+  const [displayFullname, setDisplayFullname] = useState('');
 
-    /* const [displayFullname,SetdisplayFullname] = React.useState('');
+// const handleButtonClick = () => {
+//   setDisplayFullname(fullname);
+//   Alert.alert(`Hello, Input your fullname: ${fullname}`);
+// };
 
-    const handleButtononClick = () =>{
-        SetdisplayFullname(fullname);
-        Alert.alert("Hello",`Input your fullname : ${fullname}`);
-    } */
+  return (
+    <View style={stylesPractice.content}>
+      <Text style={stylesPractice.text}>{message}</Text>
+      <Text style={stylesPractice.text}>{displayFullname}</Text>
+      <Button title="Click Me" 
+      onPress={onButtonClick}/>
+    </View>
+  );
+};
 
-    const onClickMe = () => {
-        Alert.alert("Hello", fullname)
-    }
+export default Content;
 
-    return (
-        <View style={stylesPractice.content}>
-            <Text style={stylesPractice.text}>{Massage}</Text>
-            {/* <Text style={stylesPractice.text}>{displayFullname}</Text> */}
-            {/* <Button title='CLICK ME' onPress={handleButtononClick}  /> */}
-            <Button title='CLICK ME' onPress={onButtonClick}/>
-        </View>
-    )
-}
-
-export default Content
+const styles = StyleSheet.create({});

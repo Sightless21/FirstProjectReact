@@ -1,39 +1,36 @@
 import {
+  SafeAreaView,
   StyleSheet,
   Text,
   View,
   Image,
-  SafeAreaView,
   ImageBackground,
 } from "react-native";
 import React from "react";
 
-const AboutScreen = ({ route }: any): React.JSX.Element => {
-  const { itemId, otherParam } = route.params;
-
+const AboutScreen = ({route}: any): React.JSX.Element=> {
+  const {companyId, companyName} = route.params;
   return (
     <ImageBackground
-      source={require("../assets/bg.png")}
       style={styles.bgImage}
+      resizeMode="stretch"
+      source={require("../Images/bg.png")}
     >
       <SafeAreaView>
         <Image
-          source={require("../assets/building.png")}
-          resizeMode="contain"
+          source={require("../Images/banana.jpg")}
+          resizeMode="stretch"
           style={styles.myImage}
         />
         <Text>
-          {itemId}
-          {otherParam}
+          {companyName} {companyId}
         </Text>
         <Image
-          source={{ uri: "https://codingthailand.com/site/img/camera.png" }}
+          source={{
+            uri: "https://pbs.twimg.com/profile_banners/1133065471312375808/1715962930/600x200"
+          }}
           style={styles.myImageNetwork}
         />
-        <View style={styles.container}>
-          <Text>{itemId}</Text>
-          <Text>{otherParam}</Text>
-        </View>
       </SafeAreaView>
     </ImageBackground>
   );
@@ -50,11 +47,11 @@ const styles = StyleSheet.create({
   myImage: {
     width: "100%",
     height: 200,
-    marginTop: 20,
+    marginTop: 50,
   },
   myImageNetwork: {
-    width: 50,
-    height: 50,
+    width: 100,
+    height: 100,
     marginTop: 10,
   },
   bgImage: {

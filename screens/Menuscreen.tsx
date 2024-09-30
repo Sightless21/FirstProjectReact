@@ -1,47 +1,45 @@
-import { View, Text } from "react-native";
-import React from "react";
-import { SafeAreaProvider } from "react-native-safe-area-context";
+import * as React from "react";
+import { View } from "react-native";
 import { Header, ListItem, Icon } from "@rneui/base";
-import { selectAuthState } from "../auth/auth-sliec";
-import { useAppSelector } from "../redux-toolkit/hooks";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
-const MenuScreen = ({ navigation }: any): React.JSX.Element => {
-  const {profile} = useAppSelector(selectAuthState);
+
+const MenuScreen = ({navigation}:any):React.JSX.Element => {
   return (
     <View>
-      <Header
-        barStyle="default"
-        centerComponent={{
-          text: profile?"Welcome ,"+profile.name:"",
-          style: { color: "#fff" },
-        }}
-        containerStyle={{ width: "100%", height: 200 }}
-      />
-      <>
-        <ListItem
-          bottomDivider //เส้นขีดระหว่างเมนู
-          onPress={() => { navigation.navigate('HomeStack') }}
-        >
-          <Icon name="home" type="material-community" color="grey" />
-          <ListItem.Content>
-            <ListItem.Title>หน้าหลัก</ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-        <ListItem onPress={() => { navigation.navigate('ProductStack') }} >
-          <Icon
-            name="star"
-            type="material-community"
-            color="grey"
-          />
-          <ListItem.Content>
-            <ListItem.Title>สินค้า</ListItem.Title>
-          </ListItem.Content>
-          <ListItem.Chevron />
-        </ListItem>
-      </>
-    </View>
-  );
-};
 
-export default MenuScreen;
+
+    <Header
+      backgroundColor="#215A41"
+      barStyle="default"
+      centerComponent={{
+        text: "Thai-Nichi",
+        style: { color: "#fff", fontWeight: 'bold' }
+      }}
+      containerStyle={{ width: "100%", height: 200 }}
+    />
+    <>
+  <ListItem
+  bottomDivider
+  onPress={() => {navigation.navigate('Home')}}
+  >
+    <Icon name="home" type="material-community" color="#00C08A" />
+    <ListItem.Content>
+      <ListItem.Title>Home</ListItem.Title>
+    </ListItem.Content>
+    <ListItem.Chevron />
+  </ListItem>
+  <ListItem
+  onPress={() => {navigation.navigate('ProductStack')}}>
+    <Icon name="star" type="material-community" color="#00C08A" />
+    <ListItem.Content>
+      <ListItem.Title>Products</ListItem.Title>
+    </ListItem.Content>
+    <ListItem.Chevron />
+  </ListItem>
+</>
+    </View>
+  )
+}
+
+export default MenuScreen

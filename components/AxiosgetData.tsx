@@ -1,92 +1,102 @@
-import { StyleSheet, Text, View, ActivityIndicator, FlatList } from 'react-native'
-import React, { useState, useEffect } from 'react'
-import axios from 'axios'
+import {
+  StyleSheet,
+  Text,
+  View,
+  ActivityIndicator,
+  FlatList,
+} from "react-native";
+import React from "react";
+import { useState, useEffect } from "react";
+import axios from "axios";
 
+// Define type for the data structure
 type User = {
-    id: number;
-    name: string;
-    email: string;
-}
+  id: number;
+  name: string;
+  email: string;
+};
+const AxiosGetData = (): React.JSX.Element => {
+  const [user, setUser] = useState<User[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [error, setError] = useState<string | null>(null); // string or null
 
-const AxiosgetData = (): React.JSX.Element => {
-    const [users, setUser] = useState<User[]>([]);
-    const [loading, setLoading] = useState<boolean>(true);
-    const [error, setError] = useState<string | null>(null)
-
-    const fetchData = async () => { 
-        try {
-            const response = await axios.get<User[]>('https://jsonplaceholder.typicode.com/users');
-            const data = response.data;
-            setUser(data);
-        } catch {
-            setError(`Faild to fetch users`);
-        } finally {
-            setLoading(false);
-        }
-    };
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    if(loading) {
-        return (
-            <View style={styles.container}>
-                <ActivityIndicator size="large" color="#0000ff" />
-            </View>
-        );
+  // fetching data by axios
+  const fetchData = async () => {
+    try {
+      const response = await axios.get<User[]>(
+        "https://jsonplaceholder.typicode.com/users"
+      );
+      setUser(response.data);
+    } catch {
+      setError("Fail to fetch users");
+    } finally {
+      setLoading(false);
     }
+  };
 
-    if(error){
-        return (
-            <View>
-                <FlatList 
-                contentContainerStyle = {styles.container} 
-                data={users} 
-                renderItem={({item})=>(
-                    <View>
-                        <Text style={styles.name}>{item.name}</Text>
-                        <Text style={styles.email}>{item.email}</Text>
-                    </View>
-                )}
-                keyExtractor={(item) => item.id.toString()}
-                        
-                />
-            </View>
-        )
-    }
+  // fetch user once starts
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  if (loading) {
     return (
-        <View>
-            <Text>AxiosgetData</Text>
-        </View>
-    )
-}
+      <View style={styles.centered}>
+        <ActivityIndicator size = "large" color= '#ed9a30' />
+      </View>
+    );
+  }
 
-export default AxiosgetData
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text style = {styles.errorText}>{error}</Text>  
+      </View>
+    );
+  }
+
+  return (
+    <View>
+      <FlatList 
+      contentContainerStyle = {styles.container} 
+      data={user}
+      renderItem={({item}) => (
+        <View style = {styles.item}>
+            <Text style = {styles.name}>{item.name}</Text>
+            <Text style = {styles.name}>{item.email}</Text>
+        </View>
+      )}
+      keyExtractor={item => item.id.toString()}/>
+    </View>
+  );
+};
+
+export default AxiosGetData;
 
 const styles = StyleSheet.create({
-    container: {
-        paddingTop: 50,
-    },
-    centered: {
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    errorText: {
-        fontSize: 18,
-        color: 'red',
-    },
-    item: {
-        backgroundColor: '#f9c2ff',
-        padding: 20,
-        marginVertical: 8,
-        marginHorizontal: 16,
-        borderRadius: 5,
-    },
-    name: {
-        fontSize: 20,
-        fontWeight: 'bold',
-    },
-    email: {
-        fontSize: 16,
-    },
-})
+  container: {
+    paddingTop: 50,
+  },
+  centered: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  errorText: {
+    fontSize: 18,
+    color: "red",
+  },
+  item: {
+    backgroundColor: "#69edef",
+    padding: 20,
+    marginVertical: 8,
+    marginHorizontal: 16,
+    borderRadius: 5,
+  },
+  name: {
+    fontSize: 20,
+    fontWeight: "bold",
+  },
+  email: {
+    fontSize: 16,
+  },
+});
